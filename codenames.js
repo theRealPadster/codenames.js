@@ -22,16 +22,6 @@ var board = makeBoard(words, key);
 drawBoard(board);
 wassup();
 
-function wassup() {
-    console.log("words:");
-    console.log(words);
-    console.log("key:");
-    console.log(key);
-    console.log("whoGoesFirst: " + whoGoesFirst);
-    console.log("board:");
-    console.log(board[0]);
-}
-
 /**************************
     FUNCTIONS
 ************************/
@@ -69,7 +59,7 @@ function drawBoard(board) {
             if (card.isFlipped)
                 btn.className = "card " + card.colour;
             else
-                btn.className = "card u";
+                btn.className = "card";
             btn.addEventListener ("click", cardClicked);
             container.appendChild(btn);
         }
@@ -81,6 +71,7 @@ function drawBoard(board) {
 function flipBoard() {
     var btn = document.getElementById("btnToggle");
     var show = false;
+
     if (btn.innerHTML == "Hide all") {
         btn.innerHTML = "Show all";
     }
@@ -107,7 +98,7 @@ function cardClicked() {
         this.className = "card " + card.colour;
     }
     else {
-        this.className = "card u";
+        this.className = "card";
     }
     card.isFlipped = !card.isFlipped;
 }
@@ -115,6 +106,20 @@ function cardClicked() {
 function deleteBoard() {
     document.getElementById("boardContainer").remove();
 }
+
+function wassup() {
+    console.log("words:");
+    console.log(words);
+    console.log("key:");
+    console.log(key);
+    console.log("whoGoesFirst: " + whoGoesFirst);
+    console.log("board[0]:");
+    console.log(board[0]);
+}
+
+/*****************************
+    FOR NODE VERSION
+**********************/
 
 //TODO - save flip state and team turn for full game state
 //TODO - change what's passed in here, doesn't seem very modular, seems to grab a bunch of stuff from global...
