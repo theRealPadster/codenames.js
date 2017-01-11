@@ -1,65 +1,129 @@
-var fs = require('fs');
+var rows = 5;
+var cols = 5;
 
-var wordsFilePath = process.argv[2];
-var wordsGridFile = readGridFile(wordsFilePath);
-var words = writeArray(wordsGridFile, []);
-
-var keyFilePath = process.argv[3];
-var keyGridFile = readGridFile(keyFilePath);
-var count = keyGridFile.reduce(function(n, val) {
-    if ('r' == val)
-        n++;
+var words = generateWordsArray();
+var key = [
+    ["r","b","o","o","o"],
+    ["o","b","x","r","b"],
+    ["r","r","r","b","r"],
+    ["b","b","o","b","r"],
+    ["o","b","r","r","o"]];
+var count = key.reduce(function(n, val) {
+    for (var col = 0; col < val.length; col++) {
+        if ('r' == val[col])
+            n++;
+    }
     return n;
 }, 0);
 var whoGoesFirst = count === 9 ? "r" : "b";
-var key = writeArray(keyGridFile, []);
 
 var board = makeBoard(words, key);
 
 drawBoard(board);
+wassup();
 
-console.log("words:");
-console.log(words);
-console.log("key:");
-console.log(key);
-console.log("whoGoesFirst: " + whoGoesFirst);
-console.log("board:");
-console.log(board[0]);
+function wassup() {
+    console.log("words:");
+    console.log(words);
+    console.log("key:");
+    console.log(key);
+    console.log("whoGoesFirst: " + whoGoesFirst);
+    console.log("board:");
+    console.log(board[0]);
+}
 
 /**************************
     FUNCTIONS
 ************************/
 
+function generateWordsArray() {
+    var array = [];
+    for (var row = 0; row < rows; row++) {
+        var wipRow = [];
+        for (var col = 0; col < cols; col++) {
+            wipRow[col] = row * cols + col + 1;
+        }
+        array[row] = wipRow;
+    }
+    return array;
+}
+
+function getRow(element) {
+    return element.id.split("-")[1];
+}
+
+function getCol(element) {
+    return element.id.split("-")[2];
+}
+
 function drawBoard(board) {
+    var container = document.createElement("div");
+    container.id = "boardContainer";
     for (var row = 0; row < board[0].length; row++) {
         var wipRow = [];
-        for (var col = 0; col < board[0].length; col++) { //TODO - possible expansion to different #cols?
-            // wipRow[col] = "";
-            var btn = win.document.createElement("button");
-            var text = win.document.createTextNode((board[row][col]).word);
-            btn.appendChild(text);
-            win.document.body.appendChild(btn);
+        for (var col = 0; col < board.length; col++) {
+            var card = board[row][col];
+            var btn = document.createElement("button");
+            btn.innerHTML = card.word;
+            btn.id = "btn-" + row + "-" + col;
+            if (card.isFlipped)
+                btn.className = "card " + card.colour;
+            else
+                btn.className = "card u";
+            btn.addEventListener ("click", cardClicked);
+            container.appendChild(btn);
         }
-
-        document.body.appendChild(document.createElement("br"));
-        // board[row] = wipRow;
+        container.appendChild(document.createElement("br"));
     };
+    document.body.appendChild(container);
+}
+
+function flipBoard() {
+    var btn = document.getElementById("btnToggle");
+    var show = false;
+    if (btn.innerHTML == "Hide all") {
+        btn.innerHTML = "Show all";
+    }
+    else {
+        show = true;
+        btn.innerHTML = "Hide all";
+    }
+
+    board.forEach(function(element) {
+        element.forEach(function(innerElement) {
+            innerElement.isFlipped = show;
+        });
+    });
+    deleteBoard();
+    drawBoard(board);
+}
+
+function cardClicked() {
+    var row = getRow(this);
+    var col = getCol(this);
+    var card = board[row][col];
+    //if hasn't been flipped, show colour
+    if (!card.isFlipped) {
+        this.className = "card " + card.colour;
+    }
+    else {
+        this.className = "card u";
+    }
+    card.isFlipped = !card.isFlipped;
+}
+
+function deleteBoard() {
+    document.getElementById("boardContainer").remove();
 }
 
 //TODO - save flip state and team turn for full game state
 //TODO - change what's passed in here, doesn't seem very modular, seems to grab a bunch of stuff from global...
 function makeBoard(words, key) {
-    if (wordsGridFile[0] != keyGridFile[0] || wordsGridFile[1] != keyGridFile[1]) {
-        console.error("Invalid key grid for word grid!!");
-        console.error(wordsGridFile[0] + "!=" + keyGridFile[0] + " || " + wordsGridFile[1] + "!=" + keyGridFile[1]);
-        return;
-    }
+    var board = [];
 
-    var board = []
-
-    for (var row = 0; row < wordsGridFile[0]; row++) {
+    for (var row = 0; row < rows; row++) {
         var wipRow = [];
-        for (var col = 0; col < wordsGridFile[1]; col++) {
+        for (var col = 0; col < cols; col++) {
             wipRow[col] = {
                 "word": words[row][col],
                 "colour": key[row][col],
