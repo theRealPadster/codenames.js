@@ -17,6 +17,12 @@ var count = key.reduce(function(n, val) {
 }, 0);
 var whoGoesFirst = count === 9 ? "r" : "b";
 
+var gameState = {
+    turn: whoGoesFirst,
+    allocatedGuesses: null,
+    usedGuesses: 0
+};
+
 var board = makeBoard(words, key);
 
 drawBoard(board);
@@ -44,6 +50,10 @@ function getRow(element) {
 
 function getCol(element) {
     return element.id.split("-")[2];
+}
+
+function getCard(thisVar) {
+    return board[getRow(thisVar)][getCol(thisVar)];
 }
 
 function drawBoard(board) {
@@ -90,9 +100,23 @@ function flipBoard() {
 }
 
 function cardClicked() {
-    var row = getRow(this);
-    var col = getCol(this);
-    var card = board[row][col];
+    if (gameState.allocatedGuesses == null) {
+        alert("No clue yet.");
+        return;
+    }
+    else if (gameState.usedGuesses >= gameState.allocatedGuesses) {
+        alert("All guesses used. Should be the other person's turn now...");
+        return;
+    }
+
+    var card = getCard(this);
+
+    //if assassin
+    if (card.colour == "x") {
+        alert("Assassin! Game over!!");
+        return;
+    }
+
     //if hasn't been flipped, show colour
     if (!card.isFlipped) {
         this.className = "card " + card.colour;
@@ -101,6 +125,87 @@ function cardClicked() {
         this.className = "card";
     }
     card.isFlipped = !card.isFlipped;
+
+    gameState.usedGuesses++;
+
+    //if they picked the wrong colour (other team or civilian)
+    if (card.colour != gameState.turn) {
+        alert("Ooh, not one of your agents!");
+        endTurn();
+        return;
+    }
+
+    if (gameState.usedGuesses >= gameState.allocatedGuesses)
+        endTurn();
+    else if (youWon()) {
+        alert("You win!");
+    }
+}
+
+function submitClicked() {
+    var clueInput = document.getElementById("clue-input");
+    var numberInput = document.getElementById("number-input");
+    var clue = clueInput.value;
+    var number = numberInput.value;
+
+    if (clue == "" || number == "") {
+        alert("You need a valid clue and number :P");
+        return;
+    }
+
+    var clueHeading = document.getElementById("clue-heading");
+    clueHeading.innerHTML = "";
+
+    var clueSpan = makeElement("span", clue, "");
+    var numberSpan = makeElement("span", " " + number, "");
+
+    document.getElementById("clue-heading").appendChild(clueSpan);
+    document.getElementById("clue-heading").appendChild(numberSpan);
+
+    var clueLi = makeElement("li", clue + " " + number, "clue " + gameState.turn);
+    document.getElementById("clue-log").appendChild(clueLi);
+
+    gameState.clue = clue;
+    gameState.allocatedGuesses = parseInt(number) + 1; //TODO - add 0 and unlimited
+    gameState.usedGuesses = 0;
+
+    clueInput.value = "";
+    numberInput.value = "";
+
+    document.getElementById("clue-heading").className = gameState.turn;
+}
+
+function endTurn() {
+    if (gameState.usedGuesses < 1) {
+        alert("You need to guess at least once!");
+        return;
+    }
+
+    gameState.turn = gameState.turn == "r" ? "b" : "r";
+    gameState.allocatedGuesses = null;
+    gameState.usedGuesses = 0;
+    gameState.clue = null;
+
+    var msg = gameState.turn == "r" ? "Red's turn" : "Blue's turn";
+    document.getElementById("clue-heading").innerHTML = msg;
+    document.getElementById("clue-heading").className = gameState.turn;
+}
+
+function makeElement(tag, innerHTML, classes) {
+    var element = document.createElement(tag);
+    element.innerHTML = innerHTML;
+    element.className = classes;
+    return element;
+}
+
+function youWon() {
+    for (var row = 0; row < board[0].length; row++) {
+        for (var col = 0; col < board.length; col++) {
+            if (board[row][col].colour == gameState.turn && board[row][col].isFlipped == false)
+                return false;
+        }
+    }
+    return true;
 }
 
 function deleteBoard() {

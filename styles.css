@@ -16,6 +16,7 @@ h1 {
     font-size: 2em;
     font-weight: bold;
     background-color: #eee;
+    color: white !important;
 }
 
 .card.r {
@@ -32,4 +33,25 @@ h1 {
 
 .card.o {
     background-color: #d8cc98;
+}
+
+.r {
+    color: red;
+}
+
+.b {
+    color: blue;
+}
+
+#output {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: 40%;
+    height: 100%;
+    box-shadow: 0px 0px 4px rgba(0,0,0,0.8);
+}
+
+#output .clue {
+    list-style-type: none;
 }
