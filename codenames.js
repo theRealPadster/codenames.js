@@ -28,6 +28,8 @@ var board = makeBoard(words, key);
 drawBoard(board);
 wassup();
 
+generateKeyTable();
+
 /**************************
     FUNCTIONS
 ************************/
@@ -144,12 +146,20 @@ function cardClicked() {
 
 function submitClicked() {
     var clueInput = document.getElementById("clue-input");
-    var numberInput = document.getElementById("number-input");
-    var clue = clueInput.value;
-    var number = numberInput.value;
+    var chunks = clueInput.value.split(" ");
+    if (chunks.length != 2) {
+        alert("Invalid clue :P");
+        // return;
+    }
+    var clue = chunks[0];
+    var number = chunks[1];
 
     if (clue == "" || number == "") {
         alert("You need a valid clue and number :P");
+        return;
+    }
+    else if (isNaN(parseInt(number))) {
+        alert("\"" + number + "\" is not a valid number :P");
         return;
     }
 
@@ -170,7 +180,6 @@ function submitClicked() {
     gameState.usedGuesses = 0;
 
     clueInput.value = "";
-    numberInput.value = "";
 
     document.getElementById("clue-heading").className = gameState.turn;
 }
@@ -220,6 +229,28 @@ function wassup() {
     console.log("whoGoesFirst: " + whoGoesFirst);
     console.log("board[0]:");
     console.log(board[0]);
+}
+
+function generateKeyTable() {
+    var table = document.createElement("table");
+    table.id = "key-map"
+    table.className = "hidden";
+    for (var row = 0; row < rows; row++) {
+        var tr = document.createElement("tr");
+        for (var col = 0; col < cols; col++) {
+            var td = document.createElement("td");
+            td.className = key[row][col];
+            td.innerHTML = words[row][col];
+            tr.appendChild(td);
+        }
+        table.appendChild(tr);
+    }
+    document.getElementById("output").appendChild(table);
+}
+
+function toggleKeyMap() {
+    var table = document.getElementById("key-map");
+    table.className = table.className == "hidden" ? "visible" : "hidden";
 }
 
 /*****************************

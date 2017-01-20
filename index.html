@@ -10,16 +10,18 @@
     <h1>CODENAMES.js</h1>
     <button id="btnToggle" onclick="flipBoard();">Show all</button>
     <button onclick="wassup();">Debug</button>
+    <button onclick="toggleKeyMap();">Toggle key map</button>
     <br>
 
-    <h2 id="clue-heading">Whaa?</h2>
+    <!-- <form> -->
+        <h2 id="clue-heading">Whaa?</h2>
 
-    <label for="clue-input">Clue: </label>
-    <input type="text" id="clue-input" value="fish" />
-    <label for="number-input">Number: </label>
-    <input type="number" id="number-input" value="1" />
-    <button id="submit" onclick="submitClicked();">Give clue</button>
-    <button id="endTurn" onclick="endTurn();">End turn</button>
+        <label for="clue-input">Clue: </label>
+        <input type="text" id="clue-input" value="Fish 1" />
+        <button id="submit" onsubmit="submitClicked();" onclick="submitClicked();">Give clue</button>
+        <button id="endTurn" onclick="endTurn();">End turn</button>
+    <!-- </form> -->
+
     <br><br>
 
     <div id="output">
@@ -29,5 +31,6 @@
 
 
     <script src="codenames.js"></script>
+    <script src="http://localhost:35729/livereload.js"></script>
   </body>
 </html>

@@ -55,3 +55,11 @@ h1 {
 #output .clue {
     list-style-type: none;
 }
+
+.hidden {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
