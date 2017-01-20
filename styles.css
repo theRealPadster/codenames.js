@@ -19,19 +19,23 @@ h1 {
     color: white !important;
 }
 
-.card.r {
+.card.r,
+td.r {
     background-color: #ee474b;
 }
 
-.card.b {
+.card.b,
+td.b {
     background-color: #3094b7;
 }
 
-.card.x {
+.card.x,
+td.x {
     background-color: #393834;
 }
 
-.card.o {
+.card.o,
+td.o {
     background-color: #d8cc98;
 }
 
@@ -62,4 +66,19 @@ h1 {
 
 .visible {
     visibility: visible;
+}
+
+#key-map {
+    border-collapse: collapse;
+    margin: 1em;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+td {
+    border: 1px solid black;
+    padding: 0.5em;
+    color: white !important;
+    text-shadow: 0px 0px 4px black;
 }
