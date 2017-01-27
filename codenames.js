@@ -2,12 +2,8 @@ var rows = 5;
 var cols = 5;
 
 var words = generateWordsArray();
-var key = [
-    ["r","b","o","o","o"],
-    ["o","b","x","r","b"],
-    ["r","r","r","b","r"],
-    ["b","b","o","b","r"],
-    ["o","b","r","r","o"]];
+var key = generateKeyArray();
+
 var count = key.reduce(function(n, val) {
     for (var col = 0; col < val.length; col++) {
         if ('r' == val[col])
@@ -44,6 +40,42 @@ function generateWordsArray() {
         array[row] = wipRow;
     }
     return array;
+}
+
+function generateKeyArray() {
+    //TODO - maybe eventually use math to pick number of each based on grid size
+    var cardsInOrder = ["x"];
+    for (var i = 0; i < 8; i++) {
+        cardsInOrder[cardsInOrder.length] = "r";
+    }
+    for (var i = 0; i < 8; i++) {
+        cardsInOrder[cardsInOrder.length] = "b";
+    }
+    for (var i = 0; i < 7; i++) {
+        cardsInOrder[cardsInOrder.length] = "o";
+    }
+
+    var key = [];
+
+    for (var row = 0; row < rows; row++) {
+        var wip = [];
+        for (var col = 0; col < cols; col++) {
+            var val = undefined;
+            if (cardsInOrder.length > 0) {
+                var pos = Math.floor(Math.random() * (cardsInOrder.length));
+                val = cardsInOrder[pos];
+                cardsInOrder.splice(pos,1);
+            }
+            else {
+                val = Math.random() >= 0.5 ? "r" : "b";
+            }
+
+            wip[col] = val;
+        }
+        key[row] = wip;
+    }
+
+    return key;
 }
 
 function getRow(element) {
