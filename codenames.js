@@ -31,11 +31,19 @@ generateKeyTable();
 ************************/
 
 function generateWordsArray() {
+    var wordsInOrder = [];
+    for (var i = 0; i < 25; i++) {
+        wordsInOrder[wordsInOrder.length] = i + 1;
+    }
+
     var array = [];
     for (var row = 0; row < rows; row++) {
         var wipRow = [];
         for (var col = 0; col < cols; col++) {
-            wipRow[col] = row * cols + col + 1;
+            var pos = Math.floor(Math.random() * (wordsInOrder.length));
+            val = wordsInOrder[pos];
+            wordsInOrder.splice(pos,1);
+            wipRow[col] = val;
         }
         array[row] = wipRow;
     }
@@ -66,7 +74,7 @@ function generateKeyArray() {
                 val = cardsInOrder[pos];
                 cardsInOrder.splice(pos,1);
             }
-            else {
+            else { //last one, pick randomly
                 val = Math.random() >= 0.5 ? "r" : "b";
             }
 
