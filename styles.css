@@ -41,34 +41,46 @@ td.o {
     color: blue;
 }
 
-#clues {
+#sidebar {
     position: fixed;
     top: 0;
     right: 0;
     width: 200px;
     height: 100%;
+    padding: 1em;
     background-color: #fff;
     box-shadow: 0px 0px 4px rgba(0,0,0,0.8);
 }
 
-#clues .clue {
+#sidebar .clue {
     list-style-type: none;
-}
-
-.hidden {
-    visibility: hidden;
-}
-
-.visible {
-    visibility: visible;
 }
 
 #key-map {
     border-collapse: collapse;
-    margin: 1em;
+    position: relative;
+    z-index: 1;
+}
+
+#key-map.hidden::before {
+    display: block;
     position: absolute;
-    top: 0px;
-    right: 0px;
+    z-index: 2;
+    content: '';
+    /* For some reason it shows a line to right if only 100% */
+    width: 101%;
+    height: 100%;
+    background-color: #fff;
+}
+
+#key-map.hidden::after {
+    display: block;
+    position: absolute;
+    content: 'Hidden';
+    z-index: 3;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
 }
 
 td {

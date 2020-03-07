@@ -61,7 +61,7 @@ let gameState = {
 console.log(board);
 
 let data = {
-  board, clues, gameState
+  board, clues, gameState, showAnswers: true
 }
 const vm = new Vue({
   el: '#app',
@@ -131,6 +131,10 @@ const vm = new Vue({
     },
     endGame() {
       // TODO: reveal all, disable all controls?
+      this.showAnswers = true;
+    },
+    toggleAnswerKey() {
+      this.showAnswers = !this.showAnswers;
     }
   },
   computed: {

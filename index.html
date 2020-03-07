@@ -16,10 +16,11 @@
         <p>{{gameState}}</p>
         <button @click="addClue()">Submit</button>
         <button @click="endTurn()">End turn</button>
+        <button @click="toggleAnswerKey()">Toggle answer key</button>
       </div>
       <div id="board">
         <div class="row" v-for="(column, index) in board">
-          <button class="card" v-for="(card) in board[index]"
+          <button class="card" v-for="card in board[index]"
             :class="{
               'r': card.flipped && card.colour == 'r',
               'b': card.flipped && card.colour == 'b',
@@ -31,8 +32,14 @@
           </button>
         </div>
       </div>
-      <div id="clues">
-        <h2>Clue List</h2>
+      <div id="sidebar">
+        <h2>Answer key</h2>
+        <table id="key-map" :class="{hidden: !showAnswers}">
+          <tr v-for="(column, index) in board">
+            <td v-for="card in board[index]" :class="card.colour"></td>
+          </tr>
+        </table>
+        <h2>Clue list</h2>
         <ul>
           <li v-for="clue in filteredClues"
               class="clue"
