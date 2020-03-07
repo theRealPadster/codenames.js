@@ -1,91 +1,86 @@
 body {
-    font-family: sans-serif;
+  font-family: sans-serif;
 }
-
-.card {
-    width: 80px;
-    height: 60px;
-    color: white;
-    text-shadow: 0px 0px 6px black;
-    font-size: 2em;
-    font-weight: bold;
-    background-color: #eee;
-    color: white !important;
-}
-
-.card.r,
-td.r {
-    background-color: #ee474b;
-}
-
-.card.b,
-td.b {
-    background-color: #3094b7;
-}
-
-.card.x,
-td.x {
-    background-color: #393834;
-}
-
-.card.o,
-td.o {
-    background-color: #d8cc98;
-}
-
 .r {
-    color: red;
+  color: #ee474b;
 }
-
 .b {
-    color: blue;
+  color: blue;
 }
-
 #sidebar {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 200px;
-    height: 100%;
-    padding: 1em;
-    background-color: #fff;
-    box-shadow: 0px 0px 4px rgba(0,0,0,0.8);
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 100%;
+  padding: 1em;
+  background-color: #fff;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.8);
 }
-
 #sidebar .clue {
-    list-style-type: none;
+  list-style-type: none;
 }
-
+.card {
+  width: 80px;
+  height: 60px;
+  color: #fff;
+  text-shadow: 0px 0px 6px #000;
+  font-size: 2em;
+  font-weight: bold;
+  background-color: #eee;
+  color: #fff !important;
+}
+.card.r {
+  background-color: #ee474b;
+}
+.card.b {
+  background-color: #3094b7;
+}
+.card.x {
+  background-color: #393834;
+}
+.card.o {
+  background-color: #d8cc98;
+}
 #key-map {
-    border-collapse: collapse;
-    position: relative;
-    z-index: 1;
+  border-collapse: collapse;
+  position: relative;
+  z-index: 1;
 }
-
 #key-map.hidden::before {
-    display: block;
-    position: absolute;
-    z-index: 2;
-    content: '';
-    /* For some reason it shows a line to right if only 100% */
-    width: 101%;
-    height: 100%;
-    background-color: #fff;
+  display: block;
+  position: absolute;
+  z-index: 2;
+  content: '';
+  /* For some reason it shows a line to right if only 100% */
+  width: 101%;
+  height: 100%;
+  background-color: #fff;
 }
-
-#key-map.hidden::after {
-    display: block;
-    position: absolute;
-    content: 'Hidden';
-    z-index: 3;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
+#key-map::after {
+  display: block;
+  position: absolute;
+  content: 'Hidden';
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-
-td {
-    border: 1px solid black;
-    padding: 0.5em;
-    color: white !important;
-    text-shadow: 0px 0px 4px black;
+#key-map td {
+  border: 1px solid #000;
+  padding: 0.5em;
+  color: #fff !important;
+  text-shadow: 0px 0px 4px #000;
+}
+#key-map td.r {
+  background-color: #ee474b;
+}
+#key-map td.b {
+  background-color: #3094b7;
+}
+#key-map td.x {
+  background-color: #393834;
+}
+#key-map td.o {
+  background-color: #d8cc98;
 }

@@ -1,0 +1,48 @@
+#key-map {
+  border-collapse: collapse;
+  position: relative;
+  z-index: 1;
+
+  &.hidden {
+    &::before {
+      display: block;
+      position: absolute;
+      z-index: 2;
+      content: '';
+      /* For some reason it shows a line to right if only 100% */
+      width: 101%;
+      height: 100%;
+      background-color: @white;
+    }
+  }
+  &::after {
+    display: block;
+    position: absolute;
+    content: 'Hidden';
+    z-index: 3;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+
+  td {
+    border: 1px solid @black;
+    padding: 0.5em;
+    color: @white !important;
+    text-shadow: 0px 0px 4px @black;
+
+    &.r {
+      background-color: @red;
+    }
+    &.b {
+      background-color: @blue;
+    }
+    &.x {
+      background-color: @assassin;
+    }
+    &.o {
+      background-color: @bystander;
+    }
+  }
+}
+
