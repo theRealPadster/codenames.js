@@ -17,6 +17,7 @@
         <button @click="addClue()">Submit</button>
         <button @click="endTurn()">End turn</button>
         <button @click="toggleAnswerKey()">Toggle answer key</button>
+        <button @click="copyAnswerKey()">Copy answer key</button>
       </div>
       <div id="board">
         <div class="row" v-for="(column, index) in board">
@@ -49,6 +50,8 @@
         </ul>
       </div>
     </div>
+
+    <canvas id="myCanvas" style="display: none;" width="200" height="200"></canvas>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="codenames.js"></script>

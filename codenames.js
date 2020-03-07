@@ -5,7 +5,6 @@
  *   - it also would still retain all the card information...
  *
  * - add a coin flip for which team goes first if it's even
- * - add an answer key
  * - add responsive layout
  * - restructure clues to have an array of red and blue,
  *     and display them in separate lists
@@ -56,13 +55,13 @@ let gameState = {
   remainingGuesses: Number.MAX_SAFE_INTEGER,
   remainingReds: NUM_REDS,
   remainingBlues: NUM_BLUES,
-}
+};
 
 console.log(board);
 
 let data = {
   board, clues, gameState, showAnswers: true
-}
+};
 const vm = new Vue({
   el: '#app',
   data: data,
@@ -107,7 +106,7 @@ const vm = new Vue({
         color: this.gameState.turn == 'r' ? 'b' : 'r',
         word: '',
         number: 1,
-      }
+      };
     },
     endTurn() {
       if (this.gameState.turn == 'r') {
@@ -135,6 +134,9 @@ const vm = new Vue({
     },
     toggleAnswerKey() {
       this.showAnswers = !this.showAnswers;
+    },
+    copyAnswerKey() {
+      generateCanvas(this.board);
     }
   },
   computed: {
@@ -150,19 +152,19 @@ const vm = new Vue({
 function generateWordsArray(rows, cols) {
   let wordsInOrder = [];
   for (let i = 0; i < rows * cols; i++) {
-      wordsInOrder[wordsInOrder.length] = i + 1;
+    wordsInOrder[wordsInOrder.length] = i + 1;
   }
 
   let array = [];
   for (let row = 0; row < rows; row++) {
-      let wipRow = [];
-      for (let col = 0; col < cols; col++) {
-          let pos = Math.floor(Math.random() * (wordsInOrder.length));
-          val = wordsInOrder[pos];
-          wordsInOrder.splice(pos,1);
-          wipRow[col] = val;
-      }
-      array[row] = wipRow;
+    let wipRow = [];
+    for (let col = 0; col < cols; col++) {
+      let pos = Math.floor(Math.random() * (wordsInOrder.length));
+      let val = wordsInOrder[pos];
+      wordsInOrder.splice(pos,1);
+      wipRow[col] = val;
+    }
+    array[row] = wipRow;
   }
   return array;
 }
@@ -211,11 +213,54 @@ function generateBoard(key, words) {
         word: words[row][col],
         colour: key[row][col],
         flipped: false,
-      }
+      };
     }
   }
 
   return board;
+}
+
+function generateCanvas(key) {
+  const canvas = document.getElementById('myCanvas');
+  const CANVAS_WIDTH = canvas.width;
+  const CANVAS_HEIGHT = canvas.height;
+  const CELL_WIDTH = CANVAS_WIDTH / cols;
+  const CELL_HEIGHT = CANVAS_HEIGHT / rows;
+  var ctx = canvas.getContext('2d');
+
+  for (let row = 0; row < rows; row++) {
+    const startY = row * CELL_HEIGHT;
+
+    for (let col = 0; col < cols; col++) {
+      const startX = col * CELL_WIDTH;
+
+      switch (key[row][col].colour) {
+        case 'r':
+          ctx.fillStyle = '#ee474b';
+          break;
+        case 'b':
+          ctx.fillStyle = '#3094b7';
+          break;
+        case 'o':
+          ctx.fillStyle = '#d8cc98';
+          break;
+        case 'x':
+          ctx.fillStyle = '#393834';
+          break;
+      }
+
+      ctx.fillRect(startX, startY, CELL_WIDTH, CELL_HEIGHT);
+      ctx.beginPath();
+      ctx.rect(startX, startY, CELL_WIDTH, CELL_HEIGHT);
+      ctx.stroke();
+
+    }
+  }
+
+  canvas.toBlob(function(blob) {
+    const item = new ClipboardItem({ 'image/png': blob });
+    navigator.clipboard.write([item]);
+  });
 }
 
 //#endregion
