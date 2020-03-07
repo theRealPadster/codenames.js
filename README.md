@@ -1,2 +1,2 @@
-# codenames.js
-Trying to make a codenames style game with web stuffs. 
+# codenames.vue.js
+Learning Vue.js by making a Codenames style game.
