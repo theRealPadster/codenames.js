@@ -1,7 +1,7 @@
 {
   "name": "codenames.js",
   "version": "0.1.0",
-  "description": "",
+  "description": "Learning Vue.js by making a Codenames style game.",
   "main": "codenames.js",
   "repository": {
     "type": "git",
