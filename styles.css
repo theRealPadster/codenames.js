@@ -23,6 +23,25 @@ body {
 .card.o {
   background-color: #d8cc98;
 }
+#sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 100%;
+  padding: 1em;
+  background-color: #fff;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.8);
+}
+#sidebar .clue {
+  list-style-type: none;
+}
+#sidebar .clue.r {
+  color: #ee474b;
+}
+#sidebar .clue.b {
+  color: #3094b7;
+}
 #key-map {
   border-collapse: collapse;
   position: relative;
