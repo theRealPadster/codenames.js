@@ -9,7 +9,6 @@
  * - add responsive layout
  * - restructure clues to have an array of red and blue,
  *     and display them in separate lists
- * - add end turn button
  *
  */
 

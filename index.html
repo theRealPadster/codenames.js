@@ -15,6 +15,7 @@
         <input type="number" name="number" v-model="clues[0].number">
         <p>{{gameState}}</p>
         <button @click="addClue()">Submit</button>
+        <button @click="endTurn()">End turn</button>
       </div>
       <div id="board">
         <div class="row" v-for="(column, index) in board">
