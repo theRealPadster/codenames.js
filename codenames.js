@@ -6,6 +6,7 @@
  *
  * - add a coin flip for which team goes first if it's even
  * - add responsive layout
+ * - add in 0 and infinite clue number functionality
  * - restructure clues to have an array of red and blue,
  *     and display them in separate lists
  *
@@ -226,7 +227,7 @@ function generateCanvas(key) {
   const CANVAS_HEIGHT = canvas.height;
   const CELL_WIDTH = CANVAS_WIDTH / cols;
   const CELL_HEIGHT = CANVAS_HEIGHT / rows;
-  var ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d');
 
   for (let row = 0; row < rows; row++) {
     const startY = row * CELL_HEIGHT;

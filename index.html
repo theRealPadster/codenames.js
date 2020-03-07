@@ -2,54 +2,71 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Codenames.js</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css" type="text/css" >
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <h1>Codenames.js</h1>
 
-    <div id="app">
-      <h2>It's your turn, {{gameState.turn}}, and you have {{gameState.remainingGuesses}} guesses left</h2>
-      <div id="controls">
-        <input type="text" name="clue" v-model="clues[0].word">
-        <input type="number" name="number" v-model="clues[0].number">
-        <p>{{gameState}}</p>
-        <button @click="addClue()">Submit</button>
-        <button @click="endTurn()">End turn</button>
-        <button @click="toggleAnswerKey()">Toggle answer key</button>
-        <button @click="copyAnswerKey()">Copy answer key</button>
-      </div>
-      <div id="board">
-        <div class="row" v-for="(column, index) in board">
-          <button class="card" v-for="card in board[index]"
-            :class="{
-              'r': card.flipped && card.colour == 'r',
-              'b': card.flipped && card.colour == 'b',
-              'x': card.flipped && card.colour == 'x',
-              'o': card.flipped && card.colour == 'o',
-            }"
-            @click="flipCard(card)">
-            {{card.word}}
-          </button>
+    <main class="page-wrapper">
+
+      <div id="app" class="row">
+        <div class="col-xs-12 col-sm-8">
+          <h2>It's your turn, {{gameState.turn}}, and you have {{gameState.remainingGuesses}} guesses left</h2>
+          <div id="controls">
+            <label for="clue">Enter a clue</label>
+            <input type="text" name="clue" v-model="clues[0].word">
+            <br>
+            <label for="number">How many words?</label>
+            <input type="number" name="number" v-model="clues[0].number">
+            <br><br>
+
+            <button @click="addClue()">Submit</button>
+            <button @click="endTurn()">End turn</button>
+            <button @click="toggleAnswerKey()">Toggle answer key</button>
+            <button @click="copyAnswerKey()">Copy answer key</button>
+          </div>
+
+          <div id="board" class="col-xs-12">
+            <div class="row" v-for="(column, index) in board">
+              <button class="card" v-for="card in board[index]"
+                :class="{
+                  'r': card.flipped && card.colour == 'r',
+                  'b': card.flipped && card.colour == 'b',
+                  'x': card.flipped && card.colour == 'x',
+                  'o': card.flipped && card.colour == 'o',
+                }"
+                @click="flipCard(card)">
+                {{card.word}}
+              </button>
+            </div>
+          </div>
         </div>
+
+        <div class="col-xs-12 col-sm-4">
+          <div id="sidebar">
+            <h2>Answer key</h2>
+            <table id="key-map" :class="{hidden: !showAnswers}">
+              <tr v-for="(column, index) in board">
+                <td v-for="card in board[index]" :class="card.colour"></td>
+              </tr>
+            </table>
+            <h2>Clue list</h2>
+            <ul>
+              <li v-for="clue in filteredClues"
+                  class="clue"
+                  :class="clue.colour">
+                {{clue.word}} - {{clue.number}}
+              </li>
+            </ul>
+          </div>
+        </div>
+
       </div>
-      <div id="sidebar">
-        <h2>Answer key</h2>
-        <table id="key-map" :class="{hidden: !showAnswers}">
-          <tr v-for="(column, index) in board">
-            <td v-for="card in board[index]" :class="card.colour"></td>
-          </tr>
-        </table>
-        <h2>Clue list</h2>
-        <ul>
-          <li v-for="clue in filteredClues"
-              class="clue"
-              :class="clue.colour">
-            {{clue.word}} - {{clue.number}}
-          </li>
-        </ul>
-      </div>
-    </div>
+
+    </main>
 
     <canvas id="myCanvas" style="display: none;" width="200" height="200"></canvas>
 
