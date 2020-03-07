@@ -4,33 +4,45 @@
     <meta charset="UTF-8">
     <title>Codenames.js</title>
     <link rel="stylesheet" href="styles.css" />
-    <link href="https://fonts.googleapis.com/css?family=Passion+One" rel="stylesheet">
   </head>
   <body>
-    <h1>CODENAMES.js</h1>
-    <button id="btnToggle" onclick="flipBoard();">Show all</button>
-    <button onclick="wassup();">Debug</button>
-    <button onclick="toggleKeyMap();">Toggle key map</button>
-    <br>
+    <h1>Codenames.vue.js</h1>
 
-    <!-- <form> -->
-        <h2 id="clue-heading">Whaa?</h2>
-
-        <label for="clue-input">Clue: </label>
-        <input type="text" id="clue-input" value="Fish 1" />
-        <button id="submit" onsubmit="submitClicked();" onclick="submitClicked();">Give clue</button>
-        <button id="endTurn" onclick="endTurn();">End turn</button>
-    <!-- </form> -->
-
-    <br><br>
-
-    <div id="output">
-        <ul id="clue-log">
+    <div id="app">
+      <h2>It's your turn, {{gameState.turn}}, and you have {{gameState.remainingGuesses}} guesses left</h2>
+      <div id="controls">
+        <input type="text" name="clue" v-model="clues[0].word">
+        <input type="number" name="number" v-model="clues[0].number">
+        <p>{{gameState}}</p>
+        <button @click="addClue()">Submit</button>
+      </div>
+      <div id="board">
+        <div class="row" v-for="(column, index) in board">
+          <button class="card" v-for="(card) in board[index]"
+            :class="{
+              'r': card.flipped && card.colour == 'r',
+              'b': card.flipped && card.colour == 'b',
+              'x': card.flipped && card.colour == 'x',
+              'o': card.flipped && card.colour == 'o',
+            }"
+            @click="flipCard(card)">
+            {{card.word}}
+          </button>
+        </div>
+      </div>
+      <div id="clues">
+        <h2>Clue List</h2>
+        <ul>
+          <li v-for="clue in filteredClues"
+              class="clue"
+              :class="clue.colour">
+            {{clue.word}} - {{clue.number}}
+          </li>
         </ul>
+      </div>
     </div>
 
-
-    <script src="codenames.js"></script>
-    <script src="http://localhost:35729/livereload.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="codenames.vue.js"></script>
   </body>
 </html>
