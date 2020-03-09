@@ -17,10 +17,10 @@
           <h2>It's your turn, {{gameState.turn}}, and you have {{gameState.remainingGuesses}} guesses left</h2>
           <div id="controls">
             <label for="clue">Enter a clue</label>
-            <input type="text" name="clue" v-model="clues[0].word">
+            <input type="text" name="clue" v-model="clues.pending.word">
             <br>
             <label for="number">How many words?</label>
-            <input type="number" name="number" v-model="clues[0].number">
+            <input type="number" name="number" v-model="clues.pending.number">
             <br><br>
 
             <button @click="addClue()">Submit</button>
@@ -53,11 +53,17 @@
                 <td v-for="card in board[index]" :class="card.colour"></td>
               </tr>
             </table>
-            <h2>Clue list</h2>
+            <h2>Red clues</h2>
             <ul>
-              <li v-for="clue in filteredClues"
-                  class="clue"
-                  :class="clue.colour">
+              <li v-for="clue in clues.red"
+                  class="clue r">
+                {{clue.word}} - {{clue.number}}
+              </li>
+            </ul>
+            <h2>Blue clues</h2>
+            <ul>
+              <li v-for="clue in clues.blue"
+                  class="clue b">
                 {{clue.word}} - {{clue.number}}
               </li>
             </ul>
