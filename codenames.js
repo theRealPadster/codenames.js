@@ -39,6 +39,16 @@ const words = generateWordsArray(rows, cols);
 const key = generateKeyArray(rows, cols);
 const board = generateBoard(key, words);
 
+// TODO: load the words from a file
+// There is some weird EMCAScript module syntax that IE doesn't support but I couldn't figure it out
+// Require doesn't work in plain old browser js
+// Fetch needs it to be on a server (annoying for local development)
+//   - maybe just upload once and reference from the github pages url?
+// Or I can use the Papa Parse for CSV, but fetch might be enough
+// fetch('words.js').then(results => console.log(results));
+// const test = require('./words.js');
+console.log(words);
+
 // TODO: make it follow this structure somehow?
 let clues = {
   red: [],
