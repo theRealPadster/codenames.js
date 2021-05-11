@@ -4,6 +4,7 @@
  *   - this would be easier to loop through and count items, etc.
  *   - it also would still retain all the card information...
  *
+ * - Disable clue submit button from when it's clicked until the current team's turn is over
  * - add a coin flip for which team goes first if it's even
  * - add responsive layout
  * - add in 0 and infinite clue number functionality
@@ -51,15 +52,13 @@ console.log(words);
 
 // TODO: make it follow this structure somehow?
 let clues = {
+  pending: {
+    word: 'fish',
+    number: 1,
+  },
   red: [],
   blue: [],
 };
-clues = [{
-  color: whoGoesFirst,
-  word: 'fish',
-  number: 1,
-}];
-
 
 let gameState = {
   turn: whoGoesFirst,
@@ -102,19 +101,18 @@ const vm = new Vue({
         this.endTurn();
       }
     },
+    // TODO: make this just use params
     addClue() {
-      // TODO: make this just use params
-      this.clues.push({
-        colour: this.gameState.turn,
-        word: this.clues[0].word,
-        number: this.clues[0].number,
-      });
+      if (this.gameState.turn == 'r') {
+        this.clues.red.push(this.clues.pending);
+      } else {
+        this.clues.blue.push(this.clues.pending);
+      }
 
       // TODO: why was this a string concatenation?
-      this.gameState.remainingGuesses = parseInt(this.clues[0].number) + 1;
+      this.gameState.remainingGuesses = parseInt(this.clues.pending.number) + 1;
 
-      this.clues[0] = {
-        color: this.gameState.turn == 'r' ? 'b' : 'r',
+      this.clues.pending = {
         word: '',
         number: 1,
       };
@@ -150,12 +148,6 @@ const vm = new Vue({
       generateCanvas(this.board);
     }
   },
-  computed: {
-    // Don't show the 0-index (pending) clue
-    filteredClues: function() {
-      return this.clues.slice(1);
-    }
-  }
 });
 
 //#region Functions
